@@ -2,7 +2,6 @@
 # coding=utf-8
 
 import csv
-import os
 
 
 def get_file_and_content(row, title, content, callback):

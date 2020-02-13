@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 # coding=utf-8
 import os
 import sys
@@ -6,7 +7,8 @@ import ExtractFromCsv
 
 file_counter = 0
 output_dir = 'output'
-file_name = ''
+csv_file_name = ''
+output_file_tail = 'txt'
 
 
 # 第一个参数是csv 文件的名称
@@ -16,14 +18,15 @@ def process(args):
 	print('开始执行')
 	global file_counter
 	global output_dir
-	global file_name
+	global csv_file_name
+	global output_file_tail
 	file_counter = 0
 	args_len = len(args)
 	if args_len < 2:
 		print('Missing parameters! Please read readme first, and follow the guide.')
 		return
 
-	file_name = args[1]
+	csv_file_name = args[1]
 
 	if args_len >= 3:
 		title_name = args[2]
@@ -38,10 +41,13 @@ def process(args):
 	if args_len >= 5:
 		output_dir = args[4]
 
-	print('Source file name:\'{0}\' , extract columns : \'{1}\' \'{2}\' , output folder name : \'{3}\''
-				.format(file_name, title_name, content_name, output_dir))
+	if args_len >= 6:
+		output_file_tail = args[5]
 
-	ExtractFromCsv.process(file_name, title_name, content_name, csv_row_callback)
+	print('Source file name:\'{0}\' , extract columns : \'{1}\' \'{2}\' , output folder name : \'{3}\''
+				.format(csv_file_name, title_name, content_name, output_dir))
+
+	ExtractFromCsv.process(csv_file_name, title_name, content_name, csv_row_callback)
 	print_str = "共生成 %d 个文件" % file_counter
 	print("\033[0;32m%s\033[0m" % print_str)
 
@@ -54,12 +60,12 @@ def csv_row_callback(file_name, file_content):
 
 	print('txt_dir:{0}, file_name:{1}'.format(txt_dir, file_name))
 
-	with open('{0}/{1}.txt'.format(txt_dir, file_name), 'w') as f:
+	with open('{0}/{1}.{2}'.format(txt_dir, file_name, output_file_tail), 'w') as f:
 		f.write(file_content)
 
 
 def generate_dir():
-	base = os.path.basename(file_name)
+	base = os.path.basename(csv_file_name)
 	target_dir = os.path.splitext(base)[0]
 
 	target_dir = output_dir + "/" + target_dir
