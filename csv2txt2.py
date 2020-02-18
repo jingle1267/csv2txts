@@ -58,15 +58,54 @@ def csv_row_callback(file_name, file_content):
 
 	txt_dir = generate_dir()
 
+	category = pinyin2hanzi(csv_file_name.replace('./test/zgjm-', '').replace('.csv', ''))
+
+	# file_txt_content = ('title: {0}\n'.format(file_name) + 'date: 2020-02-13 17:58:22\n' + 'tags: {0}\n'.format(category)
+	# 										+ 'categories: {0}\n'.format(category)
+	# 										+ '---\n\n' + file_content)
+
+	file_txt_content = ('---\ntitle: {0}\n'.format(file_name) + 'date: 2020-02-15T20:54:12+08:00\n'
+											+ 'draft: false\n'
+											+ '---\n\n' + file_content)
+
 	print('txt_dir:{0}, file_name:{1}'.format(txt_dir, file_name))
 
 	with open('{0}/{1}.{2}'.format(txt_dir, file_name, output_file_tail), 'w') as f:
-		f.write(file_content)
+		f.write(file_txt_content)
+
+
+def pinyin2hanzi(pinyin_category):
+	if pinyin_category == 'dongwu':
+		return '动物'
+	elif pinyin_category == 'guishen':
+		return '鬼神'
+	elif pinyin_category == 'jianzhu':
+		return '建筑'
+	elif pinyin_category == 'qinggan':
+		return '情感'
+	elif pinyin_category == 'renwu':
+		return '任务'
+	elif pinyin_category == 'shenghuo':
+		return '生活'
+	elif pinyin_category == 'shenti':
+		return '身体'
+	elif pinyin_category == 'wupin':
+		return '物品'
+	elif pinyin_category == 'yunfu':
+		return '孕妇'
+	elif pinyin_category == 'zhiwu':
+		return '植物'
+	elif pinyin_category == 'ziran':
+		return '自然'
+	else:
+		return pinyin_category
 
 
 def generate_dir():
 	base = os.path.basename(csv_file_name)
 	target_dir = os.path.splitext(base)[0]
+
+	output_dir.replace('zgjm-', '')
 
 	target_dir = output_dir + "/" + target_dir
 
