@@ -58,6 +58,9 @@ def csv_row_callback(file_name, file_content):
 
 	txt_dir = generate_dir()
 
+	# 句号换行
+	file_content = file_content.replace('。', '。\n\n')
+
 	category = pinyin2hanzi(csv_file_name.replace('./test/zgjm-', '').replace('.csv', ''))
 
 	# file_txt_content = ('title: {0}\n'.format(file_name) + 'date: 2020-02-13 17:58:22\n' + 'tags: {0}\n'.format(category)
@@ -67,6 +70,12 @@ def csv_row_callback(file_name, file_content):
 	file_txt_content = ('---\ntitle: {0}\n'.format(file_name) + 'date: 2020-02-15T20:54:12+08:00\n'
 											+ 'draft: false\n'
 											+ '---\n\n' + file_content)
+
+	# file_txt_content = ('---\nlayout: post\ntitle: {0}\n'.format(file_name) + 'date: 2020-02-15T20:54:12+08:00\n'
+	# 										+ 'categories: {0}\n'.format(category)
+	# 										+ '---\n\n' + file_content)
+
+	file_name = '2020-02-18-' + file_name
 
 	print('txt_dir:{0}, file_name:{1}'.format(txt_dir, file_name))
 
@@ -84,7 +93,7 @@ def pinyin2hanzi(pinyin_category):
 	elif pinyin_category == 'qinggan':
 		return '情感'
 	elif pinyin_category == 'renwu':
-		return '任务'
+		return '人物'
 	elif pinyin_category == 'shenghuo':
 		return '生活'
 	elif pinyin_category == 'shenti':
@@ -107,7 +116,9 @@ def generate_dir():
 
 	output_dir.replace('zgjm-', '')
 
-	target_dir = output_dir + "/" + target_dir
+	# target_dir = output_dir + "/" + target_dir
+
+	target_dir = output_dir + "/" + pinyin2hanzi(csv_file_name.replace('./test/zgjm-', '').replace('.csv', ''))
 
 	print('target_dir = ' + target_dir)
 

@@ -1,6 +1,9 @@
 # csv2txts
 csv2txts
 
+生成文档命令 `hugo -D`
+
+hugo 快速开始文档地址：https://gohugo.io/getting-started/quick-start/
 
 ```buildoutcfg
 python csv2txt2.py ./test/zgjm-dongwu.csv name content zgjm md
